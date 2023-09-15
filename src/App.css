@@ -95,14 +95,6 @@ h1 {
   padding-top: 20px;
 }
 
-.fileBox {
-  width: 400px;
-}
-
-.fileBox button {
-  width: 100px;
-}
-
 .logIn {
   display: flex;
   margin: auto;
@@ -113,5 +105,21 @@ h1 {
   width: 45px;
   border-radius: 25px;
   margin-left: 15px;
-  margin-right: 15px;
+}
+
+.preview {
+  width: 200px;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.prevElement {
+  background-color: #20202a ;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.preview button {
+  margin-top: 15px;
 }

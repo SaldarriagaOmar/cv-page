@@ -6,6 +6,7 @@ function App() {
 
   const [selectedFile, setSelectedFile] = useState(null);
 
+
   const openFilePicker = () => {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
@@ -74,7 +75,7 @@ function App() {
               </svg>
             </div>
             <div>
-              <Image src='https://thispersondoesnotexist.com/' alt='JohnDoe' boxSize='45px' borderRadius='25px' marginLeft='15px' />
+              <Image src='https://thispersondoesnotexist.com/' alt='JohnDoe' boxSize='45px' />
             </div>
             <Box ml='15' paddingRight='10'>
               <Text fontWeight='bold'>
@@ -95,6 +96,19 @@ function App() {
           <h1>Leonidas Profile Skill</h1>
           <br />
           <p>Evaluates your CV or profile features to recommend you a course and upgrade your level</p>
+        </div>
+        <div className='preview'>
+          {selectedFile && (
+            <>
+              <div className='prevElement'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" />
+              </svg>
+              <p>{selectedFile.name}</p>
+              <button>Submit</button>
+              </div>
+            </>
+          )}
         </div>
         <div className='buttons'>
           <button onClick={openFilePicker}>Upload cv</button>
