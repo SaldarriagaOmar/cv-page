@@ -1,0 +1,117 @@
+body {
+  background-color: #24272e;
+  color: white;
+}
+
+ul {
+  padding-left: 0;
+  justify-content: center;
+}
+
+.logoWarrior {
+  height: 30px;
+}
+
+.menu {
+  display: flex;
+}
+
+li {
+  margin: 10px;
+  list-style: none;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.banner {
+  padding: 5px;
+  display: flex;
+  background-color: #20202a;
+  color: white;
+  list-style: none;
+  align-items: center;
+}
+
+button {
+  outline: 0px;
+  border: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 0.875rem;
+  letter-spacing: 0.4px;
+  color: rgb(255, 255, 255);
+  min-width: 64px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: rgb(255, 78, 0);
+  font-weight: 500;
+  border-radius: 8px;
+  line-height: 1.715;
+  text-transform: none;
+  box-shadow: rgba(20, 21, 33, 0.42) 0px 4px 8px -4px;
+  padding: 0.4375rem 1.375rem;
+}
+
+.buttons :hover {
+  background-color: rgb(255, 17, 0);
+  border-radius: 8px;
+}
+
+.buttons {
+  width: 400px;
+  display: flex;
+}
+
+h1 {
+  width: 475px;
+  font-size: 60px;
+}
+
+.fileButton {
+  width: 400px;
+  display: flex;
+}
+
+.fileButton button{
+  width: 100px;
+}
+
+.bodyContent {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+.bodyText p {
+  max-width: 475px;
+  font-size: 15px;
+  padding-top: 20px;
+}
+
+.fileBox {
+  width: 400px;
+}
+
+.fileBox button {
+  width: 100px;
+}
+
+.logIn {
+  display: flex;
+  margin: auto;
+  align-items: center;
+}
+
+.logIn img {
+  width: 45px;
+  border-radius: 25px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
