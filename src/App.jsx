@@ -1,30 +1,57 @@
 import React, { useState } from 'react';
 import { Image, Flex, Box, Text } from '@chakra-ui/react'
 import './App.css'
+import supabase from './supabase';
+
 
 function App() {
-
   const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState(null);
 
-
-  const openFilePicker = () => {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.pdf, .doc, .docx';
-    fileInput.addEventListener('change', handleFileChange);
-    fileInput.click();
+  const openFilePicker = async () => {
+    try {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '.pdf, .doc, .docx';
+      await fileInput.addEventListener('change', handleFileChange);
+      fileInput.click();
+    } catch (error) {
+      console.error('Error al abrir el selector de archivos:', error);
+    }
   };
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
+
+  const handleFileChange = async (event) => {
+    try {
+      const file = event.target.files[0];
+      setSelectedFile(file);
+      setError(null);
+      setUploading(false);
+    } catch (error) {
+      console.error('Error al manejar el archivo seleccionado:', error);
+    }
   };
 
+  const handleUpload = async (e) => {
+    e.preventDefault()
+    if (selectedFile !== null){
+      const { data, error } = await supabase
+      .storage
+      .from('Cv-files')
+      .upload(`docs/${selectedFile.name}`, selectedFile, {
+        cacheControl: '3600',
+        upsert: false
+      })
+      console.log(data)
+      console.log(error)
+      setSelectedFile(null)
+    }
+  }
   return (
     <>
       <div className='banner'>
         <div className='logo'>
-          <img src="" alt="" />
-          <img className='logoWarrior' src="https://warrior-network.com/images/logos/warrior-network-white-beta.svg" alt="Warrior-network" />
+          <span>ABCDEFGHIJKLMNOPQRSTUVWX</span>
         </div>
         <div>
           <ul className='menu'>
@@ -43,7 +70,7 @@ function App() {
                 <path d="M5.338 1.59a61.44 61.44 0 0 0-2.837.856.481.481 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 0 0 2.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 0 0 .101.025.615.615 0 0 0 .1-.025c.076-.023.174-.061.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453 7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625 11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 62.456 62.456 0 0 1 5.072.56z" />
               </svg>
             </li>
-            <li>
+            <li className='selPage'>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
                 <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z" />
                 <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
@@ -93,19 +120,26 @@ function App() {
       </div>
       <div className='bodyContent'>
         <div className='bodyText'>
-          <h1>Leonidas Profile Skill</h1>
+          <h1>Lorem Ipsum Dolor</h1>
           <br />
-          <p>Evaluates your CV or profile features to recommend you a course and upgrade your level</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur a unde sunt nulla asperiores</p>
         </div>
         <div className='preview'>
           {selectedFile && (
             <>
               <div className='prevElement'>
-              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
-                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" />
-              </svg>
-              <p>{selectedFile.name}</p>
-              <button>Submit</button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                  <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" />
+                </svg>
+                <p>{selectedFile.name}</p>
+                <div className='prevButtons'>
+                  <form onSubmit={(e)=>handleUpload(e)}>
+                 {/*  <button id='oneButton' onClick={(e) => handleUpload(e)}>
+                      {uploading ? 'Uploading...' : 'Submit'}
+                    </button> */}
+                    <input className='oneButton' type="submit" placeholder='Submit' />
+                  </form>
+                </div>
               </div>
             </>
           )}
@@ -121,4 +155,4 @@ function App() {
   )
 }
 
-export default App;
+export default App
