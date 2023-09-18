@@ -7,51 +7,54 @@ import supabase from './supabase';
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
   const [error, setError] = useState(null);
 
   const openFilePicker = async () => {
-    try {
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.accept = '.pdf, .doc, .docx';
-      await fileInput.addEventListener('change', handleFileChange);
-      fileInput.click();
-    } catch (error) {
-      console.error('Error al abrir el selector de archivos:', error);
-    }
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.pdf, .doc, .docx';
+    await fileInput.addEventListener('change', handleFileChange);
+    fileInput.click();
+
   };
 
   const handleFileChange = async (event) => {
-    try {
-      const file = event.target.files[0];
-      setSelectedFile(file);
-      setError(null);
-      setUploading(false);
-    } catch (error) {
-      console.error('Error al manejar el archivo seleccionado:', error);
-    }
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    setError(null);
+    setUploading(false);
+
   };
 
   const handleUpload = async (e) => {
     e.preventDefault()
-    if (selectedFile !== null){
+    if (selectedFile !== null) {
+      setUploading(true)
+      
+      const originalFileName = selectedFile.name;
+      const normalizedFileName = originalFileName.replace(/[^a-zA-Z0-9_.-]/g, '_');
+  
+      const uniqueFileName = `${normalizedFileName}-${Math.floor(Math.random() * 100000)}`;
+
       const { data, error } = await supabase
-      .storage
-      .from('Cv-files')
-      .upload(`docs/${selectedFile.name}`, selectedFile, {
-        cacheControl: '3600',
-        upsert: false
-      })
+        .storage
+        .from('Cv-files')
+        .upload(`docs/${uniqueFileName}`, selectedFile, {
+          cacheControl: '3600',
+          upsert: false
+        })
       console.log(data)
       console.log(error)
       setSelectedFile(null)
+      setUploadSuccess(true)
     }
   }
   return (
     <>
       <div className='banner'>
         <div className='logo'>
-          <span>ABCDEFGHIJKLMNOPQRSTUVWX</span>
+          <img className='logoWarrior' src="https://warrior-network.com/images/logos/warrior-network-white-beta.svg" alt="Warrior-network" />
         </div>
         <div>
           <ul className='menu'>
@@ -120,12 +123,12 @@ function App() {
       </div>
       <div className='bodyContent'>
         <div className='bodyText'>
-          <h1>Lorem Ipsum Dolor</h1>
+          <h1>Leonidas Profile Skill</h1>
           <br />
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur a unde sunt nulla asperiores</p>
+          <p>Evaluates your CV or profile features to recommend you a course and upgrade your level</p>
         </div>
         <div className='preview'>
-          {selectedFile && (
+          {selectedFile && !uploadSuccess && (
             <>
               <div className='prevElement'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
@@ -133,21 +136,27 @@ function App() {
                 </svg>
                 <p>{selectedFile.name}</p>
                 <div className='prevButtons'>
-                  <form onSubmit={(e)=>handleUpload(e)}>
-                 {/*  <button id='oneButton' onClick={(e) => handleUpload(e)}>
-                      {uploading ? 'Uploading...' : 'Submit'}
-                    </button> */}
-                    <input className='oneButton' type="submit" placeholder='Submit' />
+                  <form onSubmit={(e) => handleUpload(e)}>
+                    <input className='oneButton' type="submit" value={uploading ? 'Uploading...' : 'Submit'} />
                   </form>
                 </div>
               </div>
             </>
           )}
+          {uploadSuccess && (
+            <div className='uploadMessage'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z" />
+                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z" />
+              </svg>
+              <p>File uploaded succesfully </p>
+            </div>
+          )}
         </div>
         <div className='buttons'>
-          <button onClick={openFilePicker}>Upload cv</button>
+          <button onClick={openFilePicker}>Upload CV</button>
           <form action="https://admin.typeform.com/accounts/01HA90XG8V7D4C2F68WT8NE69C/workspaces/hFWp5X?typeform-source=admin.typeform.com" method='get' target='_blank'>
-            <button type='submit'>Create cv</button>
+            <button type='submit'>Create CV</button>
           </form>
         </div>
       </div>

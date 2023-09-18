@@ -35,6 +35,7 @@ li {
   color: white;
   list-style: none;
   align-items: center;
+  box-shadow: rgba(20, 21, 33, 0.42) 0px 4px 8px -4px;
 }
 
 button {
@@ -78,7 +79,7 @@ button {
   border-radius: 8px;
 }
 
-#oneButton:hover {
+.oneButton:hover {
   background-color: rgb(255, 17, 0);
   border-radius: 8px;
 }
@@ -111,6 +112,10 @@ h1 {
   max-width: 475px;
   font-size: 15px;
   padding-top: 20px;
+}
+
+.uploadMessage p {
+font-size: large;
 }
 
 .logIn {
